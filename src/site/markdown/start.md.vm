@@ -1,0 +1,212 @@
+Démarrer avec JScope
+--------------------
+
+### Déclarez le plugin JScope
+
+Modifiez votre `pom.xml` et incluez le plugin JScope parmi les plugins
+de build votre projet:
+
+    [...]
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>jscope</groupId>
+                <artifactId>jscope-maven-plugin</artifactId>
+                <version>${currentVersion}</version>
+                <executions>
+                    <execution>
+                        <goals><goal>check-syntax</goal></goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+    [...]
+
+**IMPORTANT: si votre projet est un projet multi-modules, il est
+préférable de déclarer le plugin JScope au niveau du projet parent.**
+
+Le goal `check-syntax` se déclenche automatiquement à la phase
+`process-sources` et permet de vérifier que la syntaxe JScope est
+respectée sur l'ensemble des sources du projet, à chaque build.
+
+### Définissez les périmètres fonctionnels
+
+Commencez par définir les périmètres fonctionnels que vous allez
+développer. Ces périmètres correspondent le plus souvent à des demandes
+JIRA, mais ce n'est pas obligatoire.
+
+Une fois les périmètres identifiés, rajoutez une section
+`&lt;configuration`&gt; dans la déclaration du plugin.
+
+Cette section doit contenir une balise `&lt;scopes`&gt; elle-même composée
+d'une ou plusieurs balises `&lt;scope`&gt;. Chaque balise `&lt;scope`&gt;
+représente un périmètre fonctionnel.
+
+Exemple:
+
+    [...]
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>jscope</groupId>
+                <artifactId>jscope-maven-plugin</artifactId>
+                <version>${currentVersion}</version>
+                <executions>
+                    <execution>
+                        <goals><goal>check-syntax</goal></goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <scopes>
+                        <scope implementation="jscope.scope.Scope">
+                            <id>JIRA-1</id>
+                            <status>SCOPED</status>
+                            <description>JIRA 1</description>
+                        </scope>
+                        <scope implementation="jscope.scope.Scope">
+                            <id>JIRA-2</id>
+                            <status>SCOPED</status>
+                            <description>JIRA 2</description>
+                        </scope>
+                    </scopes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    [...]
+
+La configuration ci-dessus définit deux périmètres: JIRA-1 et JIRA-2.
+Pour le moment, indiquez pour chaque périmètre le statut "`SCOPED`"
+(scopé).
+
+Pour plus d'informations sur la configuration de JScope, cf. section
+[Configuration](./configuration.html).
+
+### Préparez le reporting JScope
+
+Incluez ensuite le plugin suivant parmi les plugins **de reporting**
+votre projet (projet parent dans le cas d'un projet multi-module):
+
+    <reporting>
+        <plugins>
+            <plugin>
+                <groupId>jscope</groupId>
+                <artifactId>jscope-maven-plugin</artifactId>
+                <version>${currentVersion}</version>
+            </plugin>
+        </plugins>
+    </reporting>
+
+Ce goal se déclenche automatiquement lors de la génération du site et
+crée un rapport HTML résumant l'état des scopes JScope du projet. Ce
+rapport est ensuite consultable dans le site Maven du projet.
+
+### Codez
+
+Commencez à coder chaque fonctionnalité en utilisant les balises JScope
+pour entourer chacune des fonctionnalités.
+
+Exemple:
+
+    public void execute(){
+
+        doStuff();
+        
+        //@SCOPE AB-1234 BEGIN
+        doAnotherStuff();
+        //@SCOPE END
+        
+    }
+
+Pour plus d'informations sur la syntaxe JScope, consultez la section
+[Syntaxe JScope](./syntax.html).
+
+### Vérifiez la syntaxe
+
+Pour vérifier la validité de votre code, exécutez la commande Maven
+suivante:
+
+    mvn jscope:check-syntax
+
+Le goal `check-syntax` permet de vérifier la validité de la syntaxe
+JScope. Ce goal s'exécute d'ailleurs automatiquement lorsque vous
+exécutez la phase `process-sources` avec Maven, par exemple lors de
+l'invocation du goal `install`, `package` ou `compile`.
+
+### Modifiez les périmètres fonctionnels
+
+Si vous avez besoin de déscoper une fonctionnalité, modifiez la
+configuration du plugin JScope dans le fichier `pom.xml`. Par exemple,
+supposons que l'on veuille déscoper la fonctionnalité "JIRA-2" de
+l'exemple ci-dessus. Il suffit de passer le statut du périmètre "JIRA-2"
+de "`SCOPED`" à "`UNSCOPED`":
+
+    [...]
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>jscope</groupId>
+                <artifactId>jscope-maven-plugin</artifactId>
+                <version>${currentVersion}</version>
+                <executions>
+                    <execution>
+                        <goals><goal>check-syntax</goal></goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <scopes>
+                        <scope implementation="jscope.scope.Scope">
+                            <id>JIRA-1</id>
+                            <status>SCOPED</status>
+                            <description>JIRA 1</description>
+                        </scope>
+                        <scope implementation="jscope.scope.Scope">
+                            <id>JIRA-2</id>
+                            <status>UNSCOPED</status>
+                            <description>JIRA 2</description>
+                        </scope>
+                    </scopes>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    [...]
+
+### Appliquez les changements
+
+Lorsqu'on modifie la configuration du plugin JScope, il est important
+d'appliquer *immédiatement* les modifications sur le code.
+
+Pour ce faire, exécutez d'abord la commande Maven suivante:
+
+    mvn jscope:verify
+
+Le goal `verify` exécutera un cycle Maven complet de compilation, tests
+et tests d'intégration sur une copie du projet générée par JScope avec
+les modifications apportées aux périmètres fonctionnels. *Les fichiers
+originaux ne sont pas modifiés*.
+
+Si ce goal réussit, il est très probable que la modification puisse être
+appliquée sur les fichiers originaux sans mettre en péril la stabilité
+du projet.
+
+Dans ce cas, appliquez définitivement les changements avec la commande
+suivante:
+
+    mvn jscope:apply
+
+**ATTENTION: ce goal modifie les sources du projet et ne doit être
+exécuté qu'après une exécution réussie du goal jscope:verify!**.
+
+Rafraîchissez enfin votre espace de travail Eclipse pour voir les
+modifications apportées par JScope à votre code.
+
+Exécutez enfin la commande Maven suivante:
+
+    mvn verify
+
+Cette commande recompilera et rejouera les tests unitaires et
+d'intégration sur les "vrais" fichiers du projet. Si elle réussit, votre
+projet a été correctement géré par JScope. En cas d'erreur, il est
+prudent de revenir à la version antérieure à la modification par JScope.

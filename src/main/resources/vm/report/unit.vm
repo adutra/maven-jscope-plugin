@@ -1,0 +1,39 @@
+#parse ( "vm/includes/head.vm" )
+#parse ( "vm/includes/top.vm" )
+
+<h1>
+    <span style="vertical-align:middle"><a style="vertical-align:middle" href="${prefix}index.html" style="font-size:8pt"><img alt="JScope" src="${prefix}img/home.png" /></a></span>
+    <span style="vertical-align:middle"> &gt; Scope </span>
+    <span style="vertical-align:middle"><select onchange="if(this.value)location.href=this.value">
+    #foreach ($scope in $scopesMap.keySet())
+        <option 
+            #if($scope.id == $currentScope.id)
+            selected="selected" 
+            #end
+        value="${prefix}$scope.id/index.html">$scope.id</option>
+    #end
+    </select></span>
+    <span style="vertical-align:middle"> &gt; File </span>
+    <span style="vertical-align:middle"><select onchange="if(this.value)location.href=this.value">
+        #foreach ($entry in $scopesMap.entrySet())
+            <option value=""></option>
+            <option value=""> -- Scope $entry.key.id -- </option>
+            #foreach ($path in $entry.value)
+                <option 
+                #if( $entry.key.id == $currentScope.id && $path == $currentPath )
+                selected="selected" 
+                #end
+                value="$prefix${entry.key.id}/${path}.html">$path</option>
+            #end
+        #end
+    </select></span>
+</h1>
+
+<div>
+<pre class="brush: $brushName; smart-tabs: true; toolbar: false">
+$content 
+</pre>
+</div>
+
+#parse ("vm/includes/syntaxHighlighter.vm")
+#parse ("vm/includes/tail.vm")

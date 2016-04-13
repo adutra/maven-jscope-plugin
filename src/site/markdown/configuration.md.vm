@@ -1,0 +1,85 @@
+Configuration JScope
+--------------------
+
+JScope a besoin de connaître les périmètres fonctionnels du projet pour
+pouvoir interpréter correctement les balises JScope.
+
+Ces périmètres sont décrits dans la configuration du plugin JScope, dans
+le fichier `pom.xml` du projet.
+
+Voici un exemple de configuration JScope:
+
+    [...]
+    <plugin>
+        <groupId>jscope</groupId>
+        <artifactId>jscope-maven-plugin</artifactId>
+        <version>${currentVersion}</version>
+        <configuration>
+            <scopes>
+                <scope implementation="Scope">
+                    <id>JIRA-1</id>
+                    <status>SCOPED</status>
+                    <description>JIRA 1</description>
+                </scope>
+                <scope implementation="Scope">
+                    <id>JIRA-2</id>
+                    <status>UNSCOPED</status>
+                    <description>JIRA 2</description>
+                </scope>
+                <scope implementation="Scope">
+                    <id>JIRA-3</id>
+                    <status>VALIDATED</status>
+                    <description>JIRA 3</description>
+                </scope>
+            </scopes>
+        </configuration>
+    </plugin>
+    [...]
+
+A l'intérieur de la balise `<configuration`&gt; doit figurer un élément
+`<scopes`&gt; contenant un ou plusieurs éléments `<scope`&gt;.
+
+L'attribut `implementation="Scope"` présent sur chaque élément
+`<scope`&gt; est obligatoire. Veuillez ne pas le modifier ni le
+supprimer.
+
+Chaque élément `<scope`&gt; correspond à un périmètre fonctionnel
+(souvent, il s'agit d'une demande JIRA, mais pas obligatoirement). Il
+contient les attributs suivants:
+
+<table class="table table-striped">
+<tbody><tr class="a">
+<td align="left"><b>Attribut</b></td>
+<td align="left"><b>Requis</b></td>
+<td align="left"><b>Description</b></td></tr>
+<tr class="b">
+<td align="left">id</td>
+<td align="left">oui</td>
+<td align="left">L'identifiant du périmètre fonctionnel (souvent, il s'agit d'un numéro de demande JIRA).</td></tr>
+<tr class="a">
+<td align="left">status</td>
+<td align="left">oui</td>
+<td align="left">L'état du périmètre fonctionnel: <tt>UNSCOPED</tt>, <tt>SCOPED</tt> ou <tt>VALIDATED</tt>.</td></tr>
+<tr class="b">
+<td align="left">description</td>
+<td align="left">non</td>
+<td align="left">Une description facultative du périmètre. Apparaît notamment dans les reportings HTML.</td></tr></tbody></table>
+
+Un périmètre fonctionnel peut être dans un des trois états suivants:
+
+1.  *déscopé* (`UNSCOPED`): la fonctionnalité n'est pas validée et ne
+    doit pas être incluse dans les prochaines livraisons; les blocs
+    JScope associés ne doivent pas être exécutés (mis en commentaires).
+2.  *scopé* (`SCOPED`): la fonctionnalité est provisoirement
+    validée (recettée) et peut être incluse dans les prochaines
+    livraisons; les blocs JScope associés doivent être exécutés.
+3.  *validé* (`VALIDATED`): la fonctionnalité est définitivement validée
+    (en production) et doit être incluse dans les prochaines livraisons;
+    les blocs JScope associés doivent être exécutés et pourraient à la
+    rigueur être supprimés, la fonctionnalité ne risquant plus d'être
+    déscopée à l'avenir.
+
+L'état `VALIDATED` permet de garder trace de périmètres fonctionnels
+déjà en production. En effet, il n'est pas possible de supprimer un
+périmètre fonctionnel de la configuration JScope tant que celui-ci est
+encore référencé dans le code.

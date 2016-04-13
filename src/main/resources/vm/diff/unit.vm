@@ -1,0 +1,27 @@
+#parse ( "vm/includes/head.vm" )
+#parse ( "vm/includes/top.vm" )
+
+<h1>
+    <span style="vertical-align:middle"><a style="vertical-align:middle" href="${prefix}index.html" style="font-size:8pt"><img alt="JScope" src="${prefix}img/home.png" /></a></span>
+    <span style="vertical-align:middle"> &gt; File </span>
+    <span style="vertical-align:middle"><select onchange="if(this.value)location.href=this.value">
+        #foreach ($path in $paths)
+            <option 
+            #if( $path == $currentPath )
+            selected="selected" 
+            #end
+            value="${prefix}${path}.html">$path</option>
+        #end
+    </select></span>
+</h1>
+
+<div class="diffLeft">
+<pre class="brush: $brushName; smart-tabs: true; toolbar: false">$contentLeft</pre>
+</div>
+
+<div class="diffRight">
+<pre class="brush: $brushName; smart-tabs: true; toolbar: false">$contentRight</pre>
+</div>
+
+#parse ("vm/includes/syntaxHighlighter.vm")
+#parse ("vm/includes/tail.vm")

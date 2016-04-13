@@ -1,0 +1,60 @@
+#parse ( "vm/includes/head.vm" )
+#parse ( "vm/includes/top.vm" )
+
+<h1>Diff Overview</h1>
+
+<fieldset>
+<table cellspacing="0" cellpadding="0">
+    <tr>
+        <th>Scope ID</th>
+        <th>Description</th>
+        <th>Status 1</th>
+        <th>Status 2</th>
+    </tr>
+    #foreach($scope in $scopeManager1.scopes)
+    <tr>
+        <td>$scope.id</td>
+        <td>$!scope.description</td>
+        <td>
+            <span style="color:
+                #if($scope.status == "UNSCOPED")
+                    red 
+                #end 
+                #if($scope.status == "SCOPED")
+                    darkorange
+                #end 
+                #if($scope.status == "VALIDATED")
+                    darkgreen 
+                #end 
+                ">$scope.status
+            </span>
+        </td>
+        <td>
+            #set( $scope2 = $scopeManager2.findScopeById($scope.id) )
+            <span style="color:
+                #if($scope2.status == "UNSCOPED")
+                    red 
+                #end 
+                #if($scope2.status == "SCOPED")
+                    darkorange
+                #end 
+                #if($scope2.status == "VALIDATED")
+                    darkgreen 
+                #end 
+                ">$scope2.status
+            </span>
+        </td>
+    </tr>
+    #end
+</table>
+</fieldset>
+
+<h2>Files Index</h2>
+
+<ol>
+    #foreach($path in $paths)
+    <li><a class="code" href="${path}.html">$path</a></li>
+    #end
+</ol>
+
+#parse ( "vm/includes/tail.vm" )

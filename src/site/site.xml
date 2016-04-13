@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/DECORATION/1.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/DECORATION/1.0.0 http://maven.apache.org/xsd/decoration-1.0.0.xsd">
+
+    <skin>
+        <groupId>org.apache.maven.skins</groupId>
+        <artifactId>maven-fluido-skin</artifactId>
+        <version>1.5</version>
+    </skin>
+
+    <body>
+
+        <menu name="Guide JScope">
+            <item name="Introduction" href="index.html"/>
+            <item name="Syntaxe JScope" href="syntax.html"/>
+            <item name="Configuration" href="configuration.html"/>
+            <item name="Démarrer avec JScope" href="start.html"/>
+            <item name="FAQ" href="faq.html"/>
+        </menu>
+
+        <menu name="JScope et Maven">
+            <item name="Usage" href="usage.html"/>
+            <item name="Documentation du plugin" href="plugin-info.html">
+                <item name="check-syntax" href="check-syntax-mojo.html"/>
+                <item name="verify" href="verify-mojo.html"/>
+                <item name="verify-all" href="verify-all-mojo.html"/>
+                <item name="apply" href="apply-mojo.html"/>
+                <item name="report" href="report-mojo.html"/>
+                <item name="diff" href="diff-mojo.html"/>
+            </item>
+        </menu>
+
+        <menu ref="reports"/>
+
+    </body>
+</project>

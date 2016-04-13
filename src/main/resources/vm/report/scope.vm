@@ -1,0 +1,46 @@
+#parse ( "vm/includes/head.vm" )
+#parse ( "vm/includes/top.vm" )
+
+<h1>
+    <span style="vertical-align:middle"><a style="vertical-align:middle" href="${prefix}index.html" style="font-size:8pt"><img alt="JScope" src="${prefix}img/home.png" /></a></span>
+    <span style="vertical-align:middle"> &gt; Scope </span>
+    <span style="vertical-align:middle"><select onchange="if(this.value)location.href=this.value">
+    #foreach ($scope in $scopesMap.keySet())
+        <option 
+            #if($scope.id == $currentScope.id)
+            selected="selected" 
+            #end
+        value="${prefix}$scope.id/index.html">$scope.id</option>
+    #end
+    </select></span>
+    <span style="vertical-align:middle"> &gt; Overview </span>
+</h1>
+
+<fieldset>
+    <legend>Scope Summary</legend>
+    <p>Description: $!currentScope.description</p>
+    <p>Status:
+        <span style="color:
+        #if($currentScope.status == "UNSCOPED")
+            red 
+        #end 
+        #if($currentScope.status == "SCOPED")
+            darkorange
+        #end 
+        #if($currentScope.status == "VALIDATED")
+            darkgreen 
+        #end 
+        ">$currentScope.status</span>
+    </p>
+</fieldset>
+
+<fieldset>
+    <legend>Files containing scope: $currentScope.id</legend>
+    <ol>
+    #foreach($path in $scopesMap.get($currentScope))
+        <li><a class="code" href="${path}.html">$path</a></li>
+    #end
+    </ol>
+ </fieldset>
+ 
+#parse ("vm/includes/tail.vm")

@@ -1,0 +1,40 @@
+#parse ( "vm/includes/head.vm" )
+#parse ( "vm/includes/top.vm" )
+
+<h1>Scopes Overview</h1>
+
+<fieldset>
+    <legend>Scopes in project $projectName</legend>
+    <table>
+        <tr>
+            <th>Scope ID</th>
+            <th>Status</th>
+            <th>Description</th>
+            <th>Files affected</th>
+        </tr>
+        #foreach($entry in $scopesMap.entrySet())
+        #set ($scope = $entry.key)
+        #set ($paths = $entry.value)
+        <tr>
+            <td><a href="$scope.id/index.html">$scope.id</a></td>
+            <td>
+                <span style="color:
+                #if($scope.status == "UNSCOPED")
+                    red 
+                #end 
+                #if($scope.status == "SCOPED")
+                    darkorange
+                #end 
+                #if($scope.status == "VALIDATED")
+                    darkgreen 
+                #end 
+                ">$scope.status</span>
+            </td>
+            <td>$!scope.description</td>
+            <td>$paths.size()</td>
+        </tr>
+        #end
+    </table>
+</fieldset>
+
+#parse ( "vm/includes/tail.vm" )

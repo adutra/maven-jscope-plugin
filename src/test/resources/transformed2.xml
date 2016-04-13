@@ -1,0 +1,79 @@
+<project 
+    xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>fr.dutra</groupId>
+    <artifactId>apt-poc</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <!-- 
+    comment spanned
+    over several lines
+    -->
+
+    <dependencies>
+
+        <!-- @SCOPE BASELINE BEGIN -->
+<!--@UNSCOPED@        -->
+<!--@UNSCOPED@        <dependency>-->
+<!--@UNSCOPED@            <groupId>com.sun</groupId>-->
+<!--@UNSCOPED@            <artifactId>tools</artifactId>-->
+<!--@UNSCOPED@            <version>1.5.0</version>-->
+<!--@UNSCOPED@            @COMMENTBEGIN@<scope>system</scope>@COMMENTEND@-->
+<!--@UNSCOPED@            <systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>-->
+<!--@UNSCOPED@        </dependency>-->
+<!--@UNSCOPED@-->
+        <!-- @SCOPE END -->
+        
+        <!-- @SCOPE OP-3456 BEGIN -->
+        
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>0.9.3</version>
+            <!--<scope>provided</scope>-->
+            <systemPath><![CDATA[
+                <Request xmlns="https://ws.jScope.fr/test">
+                    <text>${AUTEUR}</text>
+                    <number>${NUMBER}</number>
+                    <date>${DATE}</date>
+                </Request>
+            ]]></systemPath>
+        </dependency>
+
+        <!-- @SCOPE OP-4567 BEGIN -->
+<!--@UNSCOPED@        -->
+<!--@UNSCOPED@        @COMMENTBEGIN@ -->
+<!--@UNSCOPED@        comment spanned-->
+<!--@UNSCOPED@        over several lines-->
+<!--@UNSCOPED@        @COMMENTEND@-->
+<!--@UNSCOPED@        -->
+<!--@UNSCOPED@        <dependency>-->
+<!--@UNSCOPED@            <groupId>junit</groupId>-->
+<!--@UNSCOPED@            <artifactId>junit</artifactId>-->
+<!--@UNSCOPED@            <version>@COMMENTBEGIN@4.7@COMMENTEND@4.8</version>-->
+<!--@UNSCOPED@            @COMMENTBEGIN@<scope>test</scope>@COMMENTEND@-->
+<!--@UNSCOPED@        </dependency>-->
+        <!-- @SCOPE END -->
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!-- @SCOPE END -->
+        
+        <!-- @SCOPE OP-4567 BEGIN -->
+<!--@UNSCOPED@        <dependency>-->
+<!--@UNSCOPED@            <groupId>org.slf4j</groupId>-->
+<!--@UNSCOPED@            <artifactId>slf4j-simple</artifactId>-->
+<!--@UNSCOPED@            <version>${slf4j.version}</version>-->
+<!--@UNSCOPED@            <scope>test</scope>-->
+<!--@UNSCOPED@        </dependency>-->
+        <!-- @SCOPE END -->
+
+    </dependencies>
+
+</project>

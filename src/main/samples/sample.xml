@@ -1,0 +1,79 @@
+<project 
+    xmlns="http://maven.apache.org/POM/4.0.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>fr.dutra</groupId>
+    <artifactId>apt-poc</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
+
+    <!-- 
+    comment spanned
+    over several lines
+    -->
+
+    <dependencies>
+
+        <!-- @SCOPE BASELINE BEGIN -->
+        
+        <dependency>
+            <groupId>com.sun</groupId>
+            <artifactId>tools</artifactId>
+            <version>1.5.0</version>
+            <!--<scope>system</scope>-->
+            <systemPath>${JAVA_HOME}/lib/tools.jar</systemPath>
+        </dependency>
+
+        <!-- @SCOPE END -->
+        
+        <!-- @SCOPE OP-3456 BEGIN -->
+        
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>0.9.3</version>
+            <!--<scope>provided</scope>-->
+            <systemPath><![CDATA[
+                <Request xmlns="https://ws.jScope.fr/test">
+                    <text>${AUTEUR}</text>
+                    <number>${NUMBER}</number>
+                    <date>${DATE}</date>
+                </Request>
+            ]]></systemPath>
+        </dependency>
+
+        <!-- @SCOPE OP-4567 BEGIN -->
+        
+        <!-- 
+        comment spanned
+        over several lines
+        -->
+        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version><!--4.7-->4.8</version>
+            <!--<scope>test</scope>-->
+        </dependency>
+        <!-- @SCOPE END -->
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>${slf4j.version}</version>
+        </dependency>
+        <!-- @SCOPE END -->
+        
+        <!-- @SCOPE OP-4567 BEGIN -->
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-simple</artifactId>
+            <version>${slf4j.version}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- @SCOPE END -->
+
+    </dependencies>
+
+</project>
